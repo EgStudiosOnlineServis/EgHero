@@ -1,0 +1,29 @@
+name: Build Minecraft Mod
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Kodları Depodan Çek
+      uses: actions/checkout@v4
+
+    - name: Java 8 Kurulumu
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'
+        java-version: '8'
+
+    - name: Gradle Wrapper Dosyasına Yetki Ver
+      run: chmod +x gradlew
+
+    - name: Projeyi Derle (Build)
+      run: ./gradlew build
+
+    - name: Derlenen Mod Dosyasını (.jar) Kaydet
+      uses: actions/upload-artifact@v4
+      with:
+        name: EgHero-Mod-Jar
+        path: build/libs/*.jar
