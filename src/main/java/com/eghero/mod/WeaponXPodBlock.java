@@ -86,27 +86,3 @@ public class WeaponXPodBlock extends Block {
         }
     }
 }
-// Kapsül kodunun içine eklenecek mantık:
-boolean hasAdamantium = player.getPersistentData().getBoolean("HasAdamantiumSkeleton");
-
-if (heldItem.getItem() instanceof AdamantiumIngotItem) {
-    boolean hasWaterBottles = hasEnoughWaterBottles(player);
-
-    if (hasWaterBottles) {
-        heldItem.shrink(1);
-        consumeWaterBottles(player);
-
-        if (!hasAdamantium) {
-            // İlk kez Adamantium takılıyor
-            player.getPersistentData().putBoolean("HasAdamantiumSkeleton", true);
-            player.sendMessage(new StringTextComponent("§b[WEAPON X] §aKapsül mühürlendi! İskeletin Adamantium ile kaplandı!"), player.getUniqueID());
-        } else {
-            // Bakımı yenileniyor (Banyo yapılıyor)
-            WolverineMaintenanceHandler.replenishAdamantium(player);
-        }
-
-        player.playSound(net.minecraft.util.SoundEvents.BLOCK_RESPAWN_ANCHOR_SET_SPAWN, 1.0F, 0.5F);
-    } else {
-        player.sendMessage(new StringTextComponent("§c[Hata] Kapsülü çalıştırmak için 4 adet Su Şişesi gerekli!"), player.getUniqueID());
-    }
-}
